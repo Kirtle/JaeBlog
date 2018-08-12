@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.jaeblog.mapper.ArticleMapper">
+		 
+  	<select id="findArticleByTime"  parameterType="cn.jaeblog.entity.Article" resultType="cn.jaeblog.entity.Article">
+  		select articleid,title,user_id,content,summary,publish_time,count,username 
+  		from article as a 
+  		left join user u on a.user_id=u.id 
+  		order by publish_time desc 
+  		limit #{start},#{pageSize}
+  		
+  	</select>
+	<!-- 查询结果的总记录数 -->
+	<select id="getCount1" resultType="java.lang.Long">
+		select count(articleid) from article
+	</select>
+	<select id="findArticleByCount1" resultType="cn.jaeblog.entity.Article">
+		SELECT * FROM article order by count desc limit 0,3
+	</select>
+	<select id="findArticleByCount2" resultType="cn.jaeblog.entity.Article">
+		SELECT * FROM article order by count desc limit 0,5
+	</select>
+	<select id="findArticleById" parameterType="java.lang.Integer" resultType="cn.jaeblog.entity.Article">
+		select articleid, title,user_id,content,summary,publish_time,count,username
+  		from article as a 
+  		left join user u on a.user_id=u.id  
+  		where articleid=#{articleid}
+	</select>
+	<update id="updateArticleCountById" parameterType="java.lang.Integer">
+		update article SET count=count+1 WHERE articleid=#{articleid}
+	</update>
+	
+	<select id="findArticleByScid"  parameterType="cn.jaeblog.entity.Article"  resultType="cn.jaeblog.entity.Article">
+  		SELECT articleid ,title ,category_name ,username ,user_id, sys_category_id,summary,publish_time,count
+  		FROM article as a 
+  		left join user u on a.user_id=u.id 
+  		left join  sys_category sc on a.sys_category_id=sc.id 
+  		where sys_category_id =#{sys_category_id}
+  		order by publish_time desc 
+  		limit #{start},#{pageSize}
+  	</select>	
+  	
+  	<select id="getCount2" parameterType="cn.jaeblog.entity.Article" resultType="java.lang.Long">
+		select count(articleid) from article where sys_category_id =#{sys_category_id}
+	</select>
+  	
+  	<insert id="addArticleByUserid" parameterType="cn.jaeblog.entity.Article">
+  		insert into article(title,user_id,sys_category_id,summary,content,category_id) values(#{title},#{user_id},#{sys_category_id},#{summary},#{content},1)
+  	</insert>
+  	<update id="upArticleByArticleid" parameterType="cn.jaeblog.entity.Article">
+  		update article set title=#{title} ,user_id=#{user_id},sys_category_id=#{sys_category_id},summary=#{summary},content=#{content},category_id=1 
+  		 where articleid =#{articleid} ;
+  	</update>
+  	<select id="findArticleByKeyword" parameterType="java.lang.Object" resultType="cn.jaeblog.entity.Article">
+  		SELECT articleid ,title ,category_name ,username ,user_id, sys_category_id,summary,publish_time,count
+  		FROM article as a 
+  		left join user u on a.user_id=u.id 
+  		left join  sys_category sc on a.sys_category_id=sc.id 
+  		where concat(title,content,summary) like concat(concat('%',#{keyword}),'%')
+  		order by publish_time desc 
+  		limit #{start},#{pageSize}
+  	</select>
+  	<select id="getCount3" parameterType="java.lang.String" resultType="java.lang.Long">
+		select count(articleid) from article where concat(title,content,summary) like concat(concat('%',#{keyword}),'%')
+	</select>
+	<select id="findArticleByUserid"  parameterType="cn.jaeblog.entity.Article"  resultType="cn.jaeblog.entity.Article">
+  		SELECT articleid ,title ,category_name ,username ,user_id, sys_category_id,summary,publish_time,count
+  		FROM article as a 
+  		left join user u on a.user_id=u.id 
+  		left join  sys_category sc on a.sys_category_id=sc.id 
+  		where user_id =#{user_id}
+  		order by publish_time desc 
+  		limit #{start},#{pageSize}
+  	</select>
+  	<select id="getCount4" parameterType="java.lang.Integer" resultType="java.lang.Long">
+		select count(articleid) from article where user_id =#{user_id}
+	</select>
+</mapper>

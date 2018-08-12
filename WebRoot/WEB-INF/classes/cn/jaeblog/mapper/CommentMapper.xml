@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.jaeblog.mapper.CommentMapper">
+	<select id="findCommentById" parameterType="java.lang.Integer" resultType="cn.jaeblog.entity.Comment">
+		SELECT content,time,username FROM comment as c left join user  u  on c.user_id=u.id where article_id=#{article_id}
+	</select>
+		 
+  	<insert id="addComment" parameterType="cn.jaeblog.entity.Comment">
+  		insert into comment(user_id,article_id,content) values(#{user_id},#{article_id},#{content})
+  	</insert>
+</mapper>

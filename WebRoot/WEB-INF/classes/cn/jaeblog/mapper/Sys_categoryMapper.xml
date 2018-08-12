@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.jaeblog.mapper.Sys_categoryMapper">
+		 
+  	<select id="findSc" resultType="cn.jaeblog.entity.Sys_category">
+  		select id, category_name from sys_category 
+  	</select>
+  	 <update id="updateSc" parameterType="cn.jaeblog.entity.Sys_category">
+  	 	update sys_category set category_name=#{category_name} where id = #{id}
+  	 </update>
+  	 <insert id="addSc" parameterType="cn.jaeblog.entity.Sys_category">
+  	 	insert into sys_category(id,category_name) values(#{id},#{category_name}) 
+  	 </insert>
+  	 <delete id="delSc" parameterType="java.lang.Integer">
+  	 	delete from sys_category where id=#{id}
+  	 </delete>
+</mapper>

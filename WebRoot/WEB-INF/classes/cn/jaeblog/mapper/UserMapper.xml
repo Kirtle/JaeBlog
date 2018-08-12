@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.jaeblog.mapper.UserMapper">
+		 
+  	<select id="login"  parameterType="cn.jaeblog.entity.User" resultType="cn.jaeblog.entity.User">
+  		select * from user where username=#{username} and userpwd=#{userpwd}
+  	</select>
+	<insert id="register" parameterType="cn.jaeblog.entity.User">
+		insert into user(username,userpwd) values(#{username},#{userpwd})
+	</insert>
+	<update id="upUserInfo" parameterType="cn.jaeblog.entity.User">
+		update user set  userinfo=#{userinfo} WHERE id=#{id};
+	</update>
+	<select id="findUserInfo"  parameterType="java.lang.Integer" resultType="cn.jaeblog.entity.User">
+  		select * from user where id=#{id}
+  	</select>
+		
+</mapper>
